@@ -19,6 +19,44 @@ class Probability_B():
         probabilities = [int(numMath) / total, int(numEnglish) / total, int(numMathEnglish) / total, int(numNone) / total]
         return probabilities
 
+    def Conjuctions(self, conjA, conjB, conjAandB, conjOut, total = 1):
+        conjuction = []
+        subtitle = []
+
+        conjuction.append(conjA)
+        subtitle.append("A")
+
+        conjuction.append(conjB)
+        subtitle.append("B")
+
+        conjuction.append(conjAandB)
+        subtitle.append("A and B")
+
+        conjAorB = conjA + conjB - conjAandB
+        conjuction.append(conjAorB)
+        subtitle.append("A or B")
+
+        conjJustA = conjA - conjAandB
+        conjuction.append(conjJustA)
+        subtitle.append("A - B")
+
+        conjJustB = conjB - conjAandB
+        conjuction.append(conjJustB)
+        subtitle.append("B - A")
+
+        conjNotA = total - conjJustA
+        conjuction.append(conjNotA)
+        subtitle.append("!A")
+
+        conjNotB = total - conjJustB
+        conjuction.append(conjNotB)
+        subtitle.append("!B")
+
+        conjuction.append(conjOut)
+        subtitle.append("!A and !B")
+        
+        return conjuction, subtitle
+
 class Tests(unittest.TestCase):
     def test_Num_To_Probability_numMathEnglish_bigger(self):
         self.assertEqual(len(Probability_B.Num_To_Probability(Probability_B, 10, 10, 11, 5)),  0, "Should be 0")

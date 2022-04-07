@@ -33,7 +33,7 @@ class Conditional():
                 out.append(conjunct[i])
         return out
 
-    def Bigger_Than_Conjunct(self, conjunct, value):
+    def Greater_Than_Conjunct(self, conjunct, value):
         out = []
         for i in range(len(conjunct)):
             if(conjunct[i] > value):
@@ -91,13 +91,13 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.Less_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
 
     def test_More_Than_Conjunct(self):
-        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [0,1], 0),  [1], "Should be [1]")
+        self.assertEqual(Conditional.Greater_Than_Conjunct(Conditional, [0,1], 0),  [1], "Should be [1]")
     def test_More_Than_Conjunct_Return_All(self):
-        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [0,1], 10),  [], "Should be []")
+        self.assertEqual(Conditional.Greater_Than_Conjunct(Conditional, [0,1], 10),  [], "Should be []")
     def test_More_Than_Conjunct_Return_Nothing(self):
-        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [2,1], 0),  [2,1], "Should be [2,1]")
+        self.assertEqual(Conditional.Greater_Than_Conjunct(Conditional, [2,1], 0),  [2,1], "Should be [2,1]")
     def test_More_Than_Conjunct_Enter_Emply(self):
-        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
+        self.assertEqual(Conditional.Greater_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
 
     def test_And_OP_Conjunct(self):
         self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,1]),  [1], "Should be [1]")

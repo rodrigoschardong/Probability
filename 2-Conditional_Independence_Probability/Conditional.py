@@ -32,7 +32,26 @@ class Conditional():
             if(conjunct[i] < value):
                 out.append(conjunct[i])
         return out
-        
+
+    def Bigger_Than_Conjunct(self, conjunct, value):
+        out = []
+        for i in range(len(conjunct)):
+            if(conjunct[i] > value):
+                out.append(conjunct[i])
+        return out
+
+    def And_OP_Conjunct(self, conjA, conjB):
+        return list(set(conjA).intersection(conjB))
+
+    def Or_OP_Conjunct(self, conjA, conjB):
+        out = list(conjA)
+        out.extend(x for x in conjB if x not in out)
+        out.sort()
+        return out
+
+    def Not_OP_Conjunct(self, conj, sampleUniverse):
+        return list(set(sampleUniverse) - set(conj))
+            
 
 class Tests(unittest.TestCase):
     def test_Conditional_Formula_Error(self):
@@ -70,6 +89,48 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.Less_Than_Conjunct(Conditional, [0,1], 0),  [], "Should be []")
     def test_Less_Than_Conjunct_Enter_Emply(self):
         self.assertEqual(Conditional.Less_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
+
+    def test_More_Than_Conjunct(self):
+        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [0,1], 0),  [1], "Should be [1]")
+    def test_More_Than_Conjunct_Return_All(self):
+        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [0,1], 10),  [], "Should be []")
+    def test_More_Than_Conjunct_Return_Nothing(self):
+        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [2,1], 0),  [2,1], "Should be [2,1]")
+    def test_More_Than_Conjunct_Enter_Emply(self):
+        self.assertEqual(Conditional.Bigger_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
+
+    def test_And_OP_Conjunct(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,1]),  [1], "Should be [1]")
+    def test_And_OP_Conjunct_All_Elements(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [2,1]),  [1,2], "Should be [1]")
+    def test_And_OP_Conjunct_Emply(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,10]),  [], "Should be []")
+    def test_And_OP_Conjunct_Repeated_Numbers(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [0,0,2], [0,1]),  [0], "Should be [0]")
+
+    def test_Or_OP_Conjunct(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,5,7]),  [0,1,2,5,7], "Should be [0,1,2,5,7]")
+    def test_Or_OP_Conjunct_Excluding(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,1]),  [0,1,2], "Should be [0,1,2]")
+    def test_Or_OP_Conjunct_A_Emply(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], [0,1]),  [0,1], "Should be [0,1]")
+    def test_Or_OP_Conjunct_B_Emply(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [0,1], []),  [0,1], "Should be [0,1]")
+    def test_Or_OP_Conjunct_AB_Emply(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], []),  [], "Should be []")
+    
+    def test_Not_OP_Conjunct(self):
+        self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0], [0,1]),  [1], "Should be [1]")
+    def test_Not_OP_Conjunct_Erase_All(self):
+        self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0,1], [0,1]),  [], "Should be []")
+    def test_Not_OP_Conjunct_Erase_Nothing(self):
+        self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [], [0,1]),  [0,1], "Should be [0,1]")
+    def test_Not_OP_Conjunct_Erase_Not_Found(self):
+        self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [3], [0,1]),  [0,1], "Should be [0,1]")
+    def test_Not_OP_Conjunct_Erase_More_Than_All(self):
+        self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0,1,2], [0,1]),  [], "Should be []")
+
+
 
 if __name__ == '__main__':
     unittest.main()

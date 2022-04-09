@@ -51,7 +51,31 @@ class Conditional():
 
     def Not_OP_Conjunct(self, conj, sampleUniverse):
         return list(set(sampleUniverse) - set(conj))
-            
+    
+    def Equal_To_Conjunct(self, conj, value):
+        out = []
+        for i in range(len(conj)):
+            if(conj[i] == value):
+                out.append(conj[i])
+        return out
+
+    def Sum_Of_Elements_Is_Equal(sel, conj, value):
+        out = []
+        for i in range(len(conj)):
+            sum = 0
+            for j in range(len(conj[i])):
+                sum += conj[i][j]
+            if(sum == value):
+                out.append(conj[i])
+        return out
+
+    def An_Element_Is_Equal_To(self, conj, element, value):
+        out = []
+        for i in range(len(conj)):
+            if(element <= len(conj[i])):
+                if(value == conj[i][element]):
+                    out.append(conj[i])
+        return out
 
 class Tests(unittest.TestCase):
     def test_Conditional_Formula_Error(self):
@@ -130,6 +154,24 @@ class Tests(unittest.TestCase):
     def test_Not_OP_Conjunct_Erase_More_Than_All(self):
         self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0,1,2], [0,1]),  [], "Should be []")
 
+    def test_Equal_To_Conjunct(self):
+        self.assertEqual(Conditional.Equal_To_Conjunct(Conditional, [0,1,2], 1),  [1], "Should be [1]")
+    def test_Equal_To_Conjunct_None(self):
+        self.assertEqual(Conditional.Equal_To_Conjunct(Conditional, [0,1,2], 3),  [], "Should be []")
+    def test_Equal_To_Conjunct_More_than_One(self):
+        self.assertEqual(Conditional.Equal_To_Conjunct(Conditional, [0,1,1,2], 1),  [1,1], "Should be [1,1]")
+
+    def test_Sum_Of_Elements_Is_Equal(self):
+        self.assertEqual(Conditional.Sum_Of_Elements_Is_Equal(Conditional, [[0,1],[2,2],[1]], 1), [[0,1],[1]], "Should be [[0,1],[1]]")
+    def test_Sum_Of_Elements_Is_Equal_None(self):
+        self.assertEqual(Conditional.Sum_Of_Elements_Is_Equal(Conditional, [[0,1],[2,2],[1]], 6), [], "Should be []")
+
+    def test_An_Element_Is_Equal_To(self):
+        self.assertEqual(Conditional.An_Element_Is_Equal_To(Conditional, [[0,1],[2,2],[1]], 0, 0), [[0,1]], "Should be [[0,1]]")
+    def test_An_Element_Is_Equal_To_None(self):
+        self.assertEqual(Conditional.An_Element_Is_Equal_To(Conditional, [[0,1],[2,2],[1]], 0, 5), [], "Should be []")
+    def test_An_Element_Is_Equal_To_No_Element(self):
+        self.assertEqual(Conditional.An_Element_Is_Equal_To(Conditional, [[0,1],[2,2],[1]], 10, 0), [], "Should be []")
 
 
 if __name__ == '__main__':

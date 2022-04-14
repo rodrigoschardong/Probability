@@ -55,13 +55,30 @@ class Conditional():
             out = []
             for s in range(len(andStr)):
                 out.append(self.String_To_List(Conditional, andStr[s]))
-            return out #Fazer os testes!
+            return out
 
     def Or_OP_Conjunct(self, conjA, conjB):
-        out = list(conjA)
-        out.extend(x for x in conjB if x not in out)
-        out.sort()
-        return out
+        if(not(any(isinstance(i, list) for i in conjA)) or not(any(isinstance(j, list) for j in conjB))):
+            out = list(conjA)
+            out.extend(x for x in conjB if x not in out)
+            out.sort()
+            return out
+        else:
+            conjAstr = []
+            for a in range(len(conjA)):
+                conjAstr.append(self.List_To_String(Conditional, conjA[a]))
+            conjBstr = []
+            for b in range(len(conjB)):
+                conjBstr.append(self.List_To_String(Conditional, conjB[b]))
+
+            orStr = list(conjAstr)
+            orStr.extend(x for x in conjBstr if x not in orStr)
+            orStr.sort()
+            
+            out = []
+            for s in range(len(orStr)):
+                out.append(self.String_To_List(Conditional, orStr[s]))
+            return out #Fazer os testes!
 
     def Not_OP_Conjunct(self, conj, sampleUniverse):
         return list(set(sampleUniverse) - set(conj))
@@ -178,7 +195,9 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], []),  [], "Should be []")
     def test_Or_OP_Conjunct_AB_String(self):
         self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, ["0","1","2"], ["1","-2", "3"]), ["-2","0","1","2","3"], "Should be ['-2','0','1','2','3']")
-    
+    def test_Or_OP_Conjunct_list(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]]),  [[1,2], [1,3], [2,1]], "Should be [[1,2], [1,3], [2,1]]")
+
     def test_Not_OP_Conjunct(self):
         self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0], [0,1]),  [1], "Should be [1]")
     def test_Not_OP_Conjunct_Erase_All(self):

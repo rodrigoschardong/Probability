@@ -153,6 +153,32 @@ class Conditional():
                 out.append(float(list[i]))
         return out
 
+    def Independence(self, conjA, conjB, omega, TEST = 0):
+        if(TEST):
+            probA = self.Probability(Conditional, conjA, omega)
+            probB = self.Probability(Conditional, conjB, omega)
+
+            conjAndB = self.And_OP_Conjunct(Conditional, conjA, conjB)
+            probAandB = self.Probability(Conditional, conjAndB, omega)
+
+            probAB = probA * probB
+            if(probAandB == probAB):
+                return True
+            else:
+                return False
+        else:
+            probA = self.Probability(conjA, omega)
+            probB = self.Probability(conjB, omega)
+
+            conjAndB = self.And_OP_Conjunct(conjA, conjB)
+            probAandB = self.Probability(conjAndB, omega)
+
+            probAB = probA * probB
+            if(probAandB == probAB):
+                return True
+            else:
+                return False
+
 class Tests(unittest.TestCase):
     def test_Conditional_Formula_Error(self):
         self.assertEqual(Conditional.Conditional_Formula(Conditional, 10, 0),  "Error", "Should be Error")

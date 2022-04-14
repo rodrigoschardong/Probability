@@ -40,10 +40,10 @@ class Conditional():
                 out.append(conjunct[i])
         return out
 
-    def And_OP_Conjunct(self, conjA, conjB):
+    def And_OP_Conjunct(self, conjA, conjB, TEST = 0):
         if(not(any(isinstance(i, list) for i in conjA)) or not(any(isinstance(j, list) for j in conjB))):
             return list(set(conjA).intersection(conjB))
-        else:
+        elif(TEST == 1):
             conjAstr = []
             for a in range(len(conjA)):
                 conjAstr.append(self.List_To_String(Conditional, conjA[a]))
@@ -56,14 +56,27 @@ class Conditional():
             for s in range(len(andStr)):
                 out.append(self.String_To_List(Conditional, andStr[s]))
             return out
+        else:
+            conjAstr = []
+            for a in range(len(conjA)):
+                conjAstr.append(self.List_To_String(conjA[a]))
+            conjBstr = []
+            for b in range(len(conjB)):
+                conjBstr.append(self.List_To_String(conjB[b]))
 
-    def Or_OP_Conjunct(self, conjA, conjB):
+            andStr = list(set(conjAstr).intersection(conjBstr))
+            out = []
+            for s in range(len(andStr)):
+                out.append(self.String_To_List(andStr[s]))
+            return out
+
+    def Or_OP_Conjunct(self, conjA, conjB, TEST = 0):
         if(not(any(isinstance(i, list) for i in conjA)) or not(any(isinstance(j, list) for j in conjB))):
             out = list(conjA)
             out.extend(x for x in conjB if x not in out)
             out.sort()
             return out
-        else:
+        elif(TEST == 1):
             conjAstr = []
             for a in range(len(conjA)):
                 conjAstr.append(self.List_To_String(Conditional, conjA[a]))
@@ -78,7 +91,23 @@ class Conditional():
             out = []
             for s in range(len(orStr)):
                 out.append(self.String_To_List(Conditional, orStr[s]))
-            return out #Fazer os testes!
+            return out 
+        else:
+            conjAstr = []
+            for a in range(len(conjA)):
+                conjAstr.append(self.List_To_String(conjA[a]))
+            conjBstr = []
+            for b in range(len(conjB)):
+                conjBstr.append(self.List_To_String(conjB[b]))
+
+            orStr = list(conjAstr)
+            orStr.extend(x for x in conjBstr if x not in orStr)
+            orStr.sort()
+            
+            out = []
+            for s in range(len(orStr)):
+                out.append(self.String_To_List(orStr[s]))
+            return out 
 
     def Not_OP_Conjunct(self, conj, sampleUniverse):
         return list(set(sampleUniverse) - set(conj))
@@ -171,32 +200,32 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.Greater_Than_Conjunct(Conditional, [], 1),  [], "Should be []")
 
     def test_And_OP_Conjunct(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,1]),  [1], "Should be [1]")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,1], 1),  [1], "Should be [1]")
     def test_And_OP_Conjunct_All_Elements(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [2,1]),  [1,2], "Should be [1]")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [2,1], 1),  [1,2], "Should be [1]")
     def test_And_OP_Conjunct_Emply(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,10]),  [], "Should be []")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,10], 1),  [], "Should be []")
     def test_And_OP_Conjunct_Repeated_Numbers(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [0,0,2], [0,1]),  [0], "Should be [0]")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [0,0,2], [0,1], 1),  [0], "Should be [0]")
     def test_And_OP_Conjunct_String(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, ["1","2"], ["0","1"]),  ["1"], "Should be ['1']")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, ["1","2"], ["0","1"], 1),  ["1"], "Should be ['1']")
     def test_And_OP_Conjunct_list(self):
-        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]]),  [[1,2]], "Should be [[1,2]]")
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]], 1),  [[1,2]], "Should be [[1,2]]")
 
     def test_Or_OP_Conjunct(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,5,7]),  [0,1,2,5,7], "Should be [0,1,2,5,7]")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,5,7], 1),  [0,1,2,5,7], "Should be [0,1,2,5,7]")
     def test_Or_OP_Conjunct_Excluding(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,1]),  [0,1,2], "Should be [0,1,2]")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,1], 1),  [0,1,2], "Should be [0,1,2]")
     def test_Or_OP_Conjunct_A_Emply(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], [0,1]),  [0,1], "Should be [0,1]")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], [0,1], 1),  [0,1], "Should be [0,1]")
     def test_Or_OP_Conjunct_B_Emply(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [0,1], []),  [0,1], "Should be [0,1]")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [0,1], [], 1),  [0,1], "Should be [0,1]")
     def test_Or_OP_Conjunct_AB_Emply(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], []),  [], "Should be []")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], [], 1),  [], "Should be []")
     def test_Or_OP_Conjunct_AB_String(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, ["0","1","2"], ["1","-2", "3"]), ["-2","0","1","2","3"], "Should be ['-2','0','1','2','3']")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, ["0","1","2"], ["1","-2", "3"], 1), ["-2","0","1","2","3"], "Should be ['-2','0','1','2','3']")
     def test_Or_OP_Conjunct_list(self):
-        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]]),  [[1,2], [1,3], [2,1]], "Should be [[1,2], [1,3], [2,1]]")
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]], 1),  [[1,2], [1,3], [2,1]], "Should be [[1,2], [1,3], [2,1]]")
 
     def test_Not_OP_Conjunct(self):
         self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0], [0,1]),  [1], "Should be [1]")

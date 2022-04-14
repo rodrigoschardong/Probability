@@ -41,7 +41,21 @@ class Conditional():
         return out
 
     def And_OP_Conjunct(self, conjA, conjB):
-        return list(set(conjA).intersection(conjB))
+        if(not(any(isinstance(i, list) for i in conjA)) or not(any(isinstance(j, list) for j in conjB))):
+            return list(set(conjA).intersection(conjB))
+        else:
+            conjAstr = []
+            for a in range(len(conjA)):
+                conjAstr.append(self.List_To_String(Conditional, conjA[a]))
+            conjBstr = []
+            for b in range(len(conjB)):
+                conjBstr.append(self.List_To_String(Conditional, conjB[b]))
+
+            andStr = list(set(conjAstr).intersection(conjBstr))
+            out = []
+            for s in range(len(andStr)):
+                out.append(self.String_To_List(Conditional, andStr[s]))
+            return out #Fazer os testes!
 
     def Or_OP_Conjunct(self, conjA, conjB):
         out = list(conjA)
@@ -75,6 +89,22 @@ class Conditional():
             if(element <= len(conj[i])):
                 if(value == conj[i][element]):
                     out.append(conj[i])
+        return out
+
+    def List_To_String(self, list):
+        out = ""
+        for i in range(len(list)):
+            out += (str(list[i]) + " ")
+        return out
+
+    def String_To_List(self, string):
+        list = string.split()
+        out = []
+        for i in range(len(list)):
+            try:
+                out.append(int(list[i]))
+            except:
+                out.append(float(list[i]))
         return out
 
 class Tests(unittest.TestCase):
@@ -131,6 +161,10 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [1,2], [0,10]),  [], "Should be []")
     def test_And_OP_Conjunct_Repeated_Numbers(self):
         self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [0,0,2], [0,1]),  [0], "Should be [0]")
+    def test_And_OP_Conjunct_String(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, ["1","2"], ["0","1"]),  ["1"], "Should be ['1']")
+    def test_And_OP_Conjunct_list(self):
+        self.assertEqual(Conditional.And_OP_Conjunct(Conditional, [[1,2],[1,3]], [[2,1], [1,2]]),  [[1,2]], "Should be [[1,2]]")
 
     def test_Or_OP_Conjunct(self):
         self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [1,2], [0,5,7]),  [0,1,2,5,7], "Should be [0,1,2,5,7]")
@@ -142,6 +176,8 @@ class Tests(unittest.TestCase):
         self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [0,1], []),  [0,1], "Should be [0,1]")
     def test_Or_OP_Conjunct_AB_Emply(self):
         self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, [], []),  [], "Should be []")
+    def test_Or_OP_Conjunct_AB_String(self):
+        self.assertEqual(Conditional.Or_OP_Conjunct(Conditional, ["0","1","2"], ["1","-2", "3"]), ["-2","0","1","2","3"], "Should be ['-2','0','1','2','3']")
     
     def test_Not_OP_Conjunct(self):
         self.assertEqual(Conditional.Not_OP_Conjunct(Conditional, [0], [0,1]),  [1], "Should be [1]")
@@ -173,6 +209,22 @@ class Tests(unittest.TestCase):
     def test_An_Element_Is_Equal_To_No_Element(self):
         self.assertEqual(Conditional.An_Element_Is_Equal_To(Conditional, [[0,1],[2,2],[1]], 10, 0), [], "Should be []")
 
+    def test_List_To_String(self):
+        self.assertEqual(Conditional.List_To_String(Conditional, [0,1,2,3]), "0 1 2 3 ", "Should be '0 1 2 3 '")
+    def test_List_To_String_Neg(self):
+        self.assertEqual(Conditional.List_To_String(Conditional, [0,-1,2,3]), "0 -1 2 3 ", "Should be '0 -1 2 3 '")
+    def test_List_To_String_Emply(self):
+        self.assertEqual(Conditional.List_To_String(Conditional, []), "", "Should be ''")
+    def test_List_To_String_Broken(self):
+        self.assertEqual(Conditional.List_To_String(Conditional, [0.1,-1.7,2,3]), "0.1 -1.7 2 3 ", "Should be '0.1 -1.7 2 3 '")
 
+    def test_String_To_List(self):
+        self.assertEqual(Conditional.String_To_List(Conditional, "0 1 2 3 "), [0,1,2,3], "Should be [0,1,2,3]")
+    def test_String_To_List_Neg(self):
+        self.assertEqual(Conditional.String_To_List(Conditional, "0 -1 2 3 "), [0,-1,2,3], "Should be [0,-1,2,3]")
+    def test_String_To_List_broken(self):
+        self.assertEqual(Conditional.String_To_List(Conditional, "0 1.7 2 3.2 "), [0,1.7,2,3.2], "Should be [0,1.7,2,3.2]")
+    
+    
 if __name__ == '__main__':
     unittest.main()

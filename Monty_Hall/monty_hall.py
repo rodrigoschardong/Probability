@@ -15,8 +15,20 @@ def Door_Generator(numberOfDoors):
             return doors
     return ERROR_TAG
 
+def Door_Check(doors, chosenDoor):
+    if(chosenDoor < len(doors)):
+        return doors[chosenDoor]
+    return 0
+
+
 
 
 
 if __name__ == '__main__':
-    Door_Generator(5)
+    numberOfDoors = 5
+    doors = Door_Generator(numberOfDoors)
+    print(doors)
+    index = random.randint(0, numberOfDoors)
+    print("Chosen door:", index)
+    doorChecked = Door_Check(doors, index)
+    print("Door",index,"result",doorChecked)

@@ -28,6 +28,8 @@ class Tests(unittest.TestCase):
             sum += i
         self.assertEqual(sum, 1, "Shoud be 1")
 
+    
+
 
 if __name__ == '__main__':
     unittest.main()

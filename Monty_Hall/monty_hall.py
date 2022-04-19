@@ -10,7 +10,7 @@ def Door_Generator(numberOfDoors):
     if(isinstance(numberOfDoors, int)):
         if(numberOfDoors > 2):
             doors = list(np.zeros((numberOfDoors)).astype(int))
-            i = random.randint(0,numberOfDoors)
+            i = random.randint(0,numberOfDoors - 1)
             doors[i] = 1
             return doors
     return ERROR_TAG

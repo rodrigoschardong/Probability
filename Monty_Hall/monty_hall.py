@@ -16,7 +16,7 @@ def Door_Generator(numberOfDoors):
     return ERROR_TAG
 
 def Door_Check(doors, chosenDoor):
-    if(chosenDoor < len(doors)):
+    if((0 <= chosenDoor < len(doors))):
         return doors[chosenDoor]
     return 0
 

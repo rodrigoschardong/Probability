@@ -28,6 +28,18 @@ class Tests(unittest.TestCase):
             sum += i
         self.assertEqual(sum, 1, "Shoud be 1")
 
+    def test_Door_Check_Right(self):
+        self.assertEqual(mh.Door_Check([0,1,0], 1), 1, "Shoud be 1") 
+    def test_Door_Check_Right_Zero_Lim(self):
+        self.assertEqual(mh.Door_Check([1,0,0], 0), 1, "Shoud be 1")  
+    def test_Door_Check_Right_Max_Lim(self):
+        self.assertEqual(mh.Door_Check([0,0,1], 2), 1, "Shoud be 1")       
+    def test_Door_Check_Wrong(self):
+        self.assertEqual(mh.Door_Check([0,1,0], 2), 0, "Shoud be 0") 
+    def test_Door_Check_Neg(self):
+        self.assertEqual(mh.Door_Check([0,1,0], -1), 0, "Shoud be 0")
+    def test_Door_Check_Beyond_Lim(self):
+        self.assertEqual(mh.Door_Check([0,1,0], 10), 0, "Shoud be 0")  
     
 
 

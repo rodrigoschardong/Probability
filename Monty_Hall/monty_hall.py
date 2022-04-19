@@ -20,6 +20,32 @@ def Door_Check(doors, chosenDoor):
         return doors[chosenDoor]
     return 0
 
+def Door_Show_Create(numberOfDoors):
+    doorShow = []
+    for i in range(numberOfDoors):
+        doorShow.append("?")
+    return doorShow
+
+def Find_Reward(doors):
+    for i in range(len(doors)):
+        if(doors[i]):
+            return i
+    return ERROR_TAG
+
+def Open_Doors(doors, chosenDoor):
+    doorShow = list(np.zeros((len(doors))))
+    rewardDoor = Find_Reward(doors)
+    if(0 <= rewardDoor <= len(doors)):
+        doorShow[rewardDoor] = "?"
+    if(0 <= chosenDoor <= len(doors)):
+        if(chosenDoor != rewardDoor):
+            doorShow[chosenDoor] = "?"
+        else:
+            randomDoor = random.randint(0, len(doors) - 1)
+            while(randomDoor == rewardDoor):
+                randomDoor = random.randint(0, len(doors) - 1)
+            doorShow[randomDoor] = "?"
+    return doorShow
 
 
 

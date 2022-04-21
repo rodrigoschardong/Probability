@@ -37,7 +37,7 @@ def Open_Doors(doors, chosenDoor):
     rewardDoor = Find_Reward(doors)
     if(0 <= rewardDoor <= len(doors)):
         doorShow[rewardDoor] = "?"
-    if(0 <= chosenDoor <= len(doors)):
+    if(0 <= chosenDoor <= len(doors) - 1):
         if(chosenDoor != rewardDoor):
             doorShow[chosenDoor] = "?"
         else:

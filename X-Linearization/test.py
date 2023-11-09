@@ -40,7 +40,7 @@ class Tests(unittest.TestCase):
         y = [0,1,2,3,4,5]
         lnzt = Linearization(x,y)
 
-        lnzt._GetAngularCoeficient()
+        lnzt._GetAngularCoeficient(x, y)
 
         expected = 1
         received = lnzt._A
@@ -50,7 +50,7 @@ class Tests(unittest.TestCase):
         y = [0,2,4,6,8,10]
         lnzt = Linearization(x,y)
 
-        lnzt._GetAngularCoeficient()
+        lnzt._GetAngularCoeficient(x, y)
 
         expected = 2
         received = lnzt._A

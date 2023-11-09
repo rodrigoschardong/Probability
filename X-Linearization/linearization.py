@@ -30,26 +30,26 @@ class Linearization():
             sum += array1[i] * array2[i]
         return sum
     
-    def _GetAngularCoeficient(self):
-        lengh = len(self.x)
-        dominator = lengh * self._SumOfProductOfArray(self.x, self.y)
-        dominator -= (self._SumOfArray(self.x) * self._SumOfArray(self.y))
+    def _GetAngularCoeficient(self, x, y):
+        lengh = len(x)
+        dominator = lengh * self._SumOfProductOfArray(x, y)
+        dominator -= (self._SumOfArray(x) * self._SumOfArray(y))
 
-        denominator = lengh * self._SumOfProductOfArray(self.x, self.x)
-        denominator -= (self._SumOfArray(self.x) * self._SumOfArray(self.x))
+        denominator = lengh * self._SumOfProductOfArray(x, x)
+        denominator -= (self._SumOfArray(x) * self._SumOfArray(x))
 
         self._A = dominator / denominator
 
-    def _GetLinearCoeficient(self):
-        lengh = len(self.y)
-        y = self._SumOfArray(self.y) / lengh
-        x = self._SumOfArray(self.x) / lengh
+    def _GetLinearCoeficient(self, x, y):
+        lengh = len(y)
+        Y = self._SumOfArray(y) / lengh
+        X = self._SumOfArray(x) / lengh
 
-        self._B =  y - (self._A * x)
+        self._B =  Y - (self._A * X)
 
     def Linearization(self):
-        self._GetAngularCoeficient()
-        self._GetLinearCoeficient()
+        self._GetAngularCoeficient(self.x, self.y)
+        self._GetLinearCoeficient(self.x, self.y)
 
         return {'angular': self._A, 'linear': self._B}
 

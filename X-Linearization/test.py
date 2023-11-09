@@ -3,6 +3,8 @@ import unittest
 #from Monty_Hall.monty_hall import s
 from linearization import Linearization
 
+import random
+
 class Tests(unittest.TestCase):
     def test_init_class(self):
         x = [0,1,2,3,4,5]
@@ -75,6 +77,170 @@ class Tests(unittest.TestCase):
 
         expected = 1
         received = lnzt._B
+        self.assertEqual(received, expected, "Should be " + str(expected))
+
+    def test_GetExponentialBase_Only_Base_and_Expoent(self):
+        # Test on positive base and expoent
+        base = random.randint(1, 10)
+        expoent = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(base ** (expoent * i))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        self.assertEqual(received, expected, "Should be " + str(expected))
+
+        # Test on negative base and expoent
+        base = random.randint(-10, -1)
+        expoent = random.randint(-10, -1)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(base ** (expoent * i))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        tolerance = 0.01
+        self.assertAlmostEqual(received, expected, delta = tolerance, msg = "Should be " + str(expected))
+
+        # Test on zero base and expoent
+        base = 0
+        expoent = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(base ** (expoent * i))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        self.assertAlmostEqual(received, expected, msg = "Should be " + str(expected))
+
+    def test_GetExponentialBase_with_Amplitude(self):
+        # Test on positive base and expoent
+        base = random.randint(1, 10)
+        expoent = random.randint(1, 10)
+        amplitude = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        self.assertEqual(received, expected, "Should be " + str(expected))
+
+        # Test on negative base and expoent
+        base = random.randint(-10, -1)
+        expoent = random.randint(-10, -1)
+        amplitude = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        tolerance = 0.01
+        self.assertAlmostEqual(received, expected, delta = tolerance, msg = "Should be " + str(expected))
+
+        # Test on positive base and expoent
+        base = random.randint(1, 10)
+        expoent = random.randint(1, 10)
+        amplitude = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        self.assertEqual(received, expected, "Should be " + str(expected))
+
+        # Test on zero base and expoent
+        base = 0
+        expoent = random.randint(1, 10)
+        amplitude = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = base ** expoent
+        received = lznt._GetExponentialBase(x, y)
+        self.assertAlmostEqual(received, expected, msg = "Should be " + str(expected))
+
+    def test_GetExponentialAmplitude(self):
+        # Test on positive Amplitude
+        base = random.randint(1, 10)
+        expoent = random.randint(1, 10)
+        amplitude = random.randint(1, 10)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = amplitude
+        received = lznt._GetExponentialAmplitude(x, y, base ** expoent)
+        self.assertEqual(received, expected, "Should be " + str(expected))
+
+        # Test on Negative Amplitude
+        base = random.randint(1, 10)
+        expoent = random.randint(1, 10)
+        amplitude = random.randint(-10, -1)
+        lengh = 10
+        
+        x = []
+        y = []
+        for i in range(lengh):
+            x.append(i)
+            y.append(amplitude * (base ** (expoent * i)))
+
+        lznt = Linearization(x, y)
+
+        expected = amplitude
+        received = lznt._GetExponentialAmplitude(x, y, base ** expoent)
         self.assertEqual(received, expected, "Should be " + str(expected))
 
 if __name__ == '__main__':

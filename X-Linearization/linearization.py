@@ -52,6 +52,43 @@ class Linearization():
         self._GetLinearCoeficient(self.x, self.y)
 
         return {'angular': self._A, 'linear': self._B}
+    
+    def _GetExponentialBase(self, x, y):
+        lenght = len(x)
+        if(lenght > 1):
+            bases = []
+            for i in range(1, lenght):
+                if(y[i - 1] != 0):
+                    division = y[i] / y[i -1]
+                    bases.append(division)
+            if(len(bases)):
+                base = 0
+                for b in bases:
+                    base += b
+                return base / len(bases)
+            
+        print("Could not find the base of the exponential")
+        return "Not Found"
+    
+    def _GetExponentialAmplitude(self, x, y, base):
+        lengh = len(x)
+        if((lengh > 1) and (base != 0)):
+            amplitudes = []
+            for i in range(lengh):
+                division = y[i] / (base ** x[i])
+                amplitudes.append(division)
+            if(len(amplitudes)):
+                amplitude = 0
+                for a in amplitudes:
+                    amplitude += a 
+                return amplitude / len(amplitudes)
+        print("Could not find the amplitude of the exponential")
+        return "Not Found"
+
+
+    
+    #def Exponential_Linearization(self):
+
 
 
 if __name__ == '__main__':
